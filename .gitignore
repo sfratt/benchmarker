@@ -452,3 +452,13 @@ $RECYCLE.BIN/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# Database
+*.accdb
+*.db
+*.dbf
+*.db-shm
+*.db-wal
+*.mdb
+*.pdb
+*.sqlite3

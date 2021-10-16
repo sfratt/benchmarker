@@ -30,7 +30,7 @@ namespace Benchmarker.Api
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
             });
             services.AddControllers();
-            services.AddScoped<IBenchmarkRepository, InMemoryBenchmarkRepository>();
+            services.AddScoped<IBenchmarkRepository, BenchmarkRepository>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Benchmarker.Api", Version = "v1" });

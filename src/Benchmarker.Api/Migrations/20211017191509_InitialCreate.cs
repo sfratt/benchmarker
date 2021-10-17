@@ -10,12 +10,12 @@ namespace Benchmarker.Api.Migrations
                 name: "Benchmarks",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    CpuUtilization = table.Column<int>(type: "INTEGER", nullable: false),
-                    NetworkIn = table.Column<int>(type: "INTEGER", nullable: false),
-                    NetworkOut = table.Column<int>(type: "INTEGER", nullable: false),
-                    MemoryUtilization = table.Column<double>(type: "REAL", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CpuUtilization = table.Column<int>(type: "int", nullable: false),
+                    NetworkIn = table.Column<int>(type: "int", nullable: false),
+                    NetworkOut = table.Column<int>(type: "int", nullable: false),
+                    MemoryUtilization = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {

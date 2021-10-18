@@ -3,7 +3,8 @@ using System.ComponentModel.DataAnnotations;
 namespace Benchmarker.Api.Models
 {
     /// <summary>
-    /// Class <c>Benchmark</c> models the Netflix Data Benchmark training data set.
+    /// Class <c>Benchmark</c> models the workload data generated from two industrial benchmarks: 
+    /// Netflix Data Benchmark (NDBench) and DVD store from Dell.
     /// </summary>
     public class Benchmark
     {

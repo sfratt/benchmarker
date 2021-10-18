@@ -1,16 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Benchmarker.Api.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
 namespace Benchmarker.Api
@@ -24,9 +19,14 @@ namespace Benchmarker.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var builder = new SqlConnectionStringBuilder();
+            builder.ConnectionString = Configuration.GetConnectionString("DefaultConnection");
+            builder.UserID = Configuration["UserID"];
+            builder.Password = Configuration["Password"];
 
+            services.AddDbContext<BenchmarkContext>(options => options.UseSqlServer(builder.ConnectionString));
             services.AddControllers();
-            services.AddScoped<IBenchmarkRepository, InMemoryBenchmarkRepository>();
+            services.AddScoped<IBenchmarkRepository, BenchmarkRepository>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Benchmarker.Api", Version = "v1" });
@@ -34,8 +34,9 @@ namespace Benchmarker.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, BenchmarkContext context)
         {
+            context.Database.Migrate();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

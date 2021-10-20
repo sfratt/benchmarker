@@ -1,3 +1,4 @@
+using System;
 using Benchmarker.Api.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -19,12 +20,13 @@ namespace Benchmarker.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var builder = new SqlConnectionStringBuilder();
-            builder.ConnectionString = Configuration.GetConnectionString("DefaultConnection");
-            builder.UserID = Configuration["UserID"];
-            builder.Password = Configuration["Password"];
+            var builder = new SqlConnectionStringBuilder(Configuration.GetConnectionString("DefaultConnection"));
+            var benchmarkerCredentials = Configuration.GetSection("BenchmarkerCredentials");
+            builder.UserID = benchmarkerCredentials["UserID"];
+            builder.Password = benchmarkerCredentials["Password"];
 
             services.AddDbContext<BenchmarkContext>(options => options.UseSqlServer(builder.ConnectionString));
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddControllers();
             services.AddScoped<IBenchmarkRepository, BenchmarkRepository>();
             services.AddSwaggerGen(c =>

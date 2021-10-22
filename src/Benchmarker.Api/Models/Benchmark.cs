@@ -6,22 +6,25 @@ namespace Benchmarker.Api.Models
     /// Class <c>Benchmark</c> models the workload data generated from two industrial benchmarks: 
     /// Netflix Data Benchmark (NDBench) and DVD store from Dell.
     /// </summary>
-    public class Benchmark
+    public record Benchmark
     {
         [Key]
         [Required]
-        public int Id { get; set; }
+        public int Id { get; init; }
 
         [Required]
-        public int CpuUtilization { get; set; }
+        public int CpuUtilization { get; init; }
 
         [Required]
-        public int NetworkIn { get; set; }
+        public int NetworkIn { get; init; }
 
         [Required]
-        public int NetworkOut { get; set; }
+        public int NetworkOut { get; init; }
 
         [Required]
-        public double MemoryUtilization { get; set; }
+        public double MemoryUtilization { get; init; }
+
+        // [Required]
+        // public bool IsTraining { get; init; }
     }
 }

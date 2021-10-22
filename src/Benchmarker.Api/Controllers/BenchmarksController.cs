@@ -1,7 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
 using Benchmarker.Api.Data;
-using Benchmarker.Api.Models;
+using Benchmarker.Api.DataTransferObjects;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Benchmarker.Api.Controllers
@@ -11,23 +14,32 @@ namespace Benchmarker.Api.Controllers
     public class BenchmarksController : ControllerBase
     {
         private readonly IBenchmarkRepository _repository;
+        private readonly IMapper _mapper;
 
-        public BenchmarksController(IBenchmarkRepository repository) => _repository = repository;
+        public BenchmarksController(IBenchmarkRepository repository, IMapper mapper)
+        {
+            _repository = repository;
+            _mapper = mapper;
+        }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Benchmark>> Get()
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ResponseForData>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Get()
         {
-            var benchmarks = _repository.GetBenchmarks();
+            var benchmarks = await _repository.GetBenchmarksAsync();
             if (!benchmarks.Any()) return NotFound();
-            return Ok(benchmarks);
+            return Ok(_mapper.Map<IEnumerable<ResponseForData>>(benchmarks));
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Benchmark> Get(int id)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseForData))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Get(int id)
         {
-            var benchmark = _repository.GetBenchmarkById(id);
+            var benchmark = await _repository.GetBenchmarkAsync(id);
             if (benchmark is null) return NotFound();
-            return Ok(benchmark);
+            return Ok(_mapper.Map<ResponseForData>(benchmark));
         }
     }
 }

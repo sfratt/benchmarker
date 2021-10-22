@@ -7,6 +7,6 @@ namespace Benchmarker.Api.Data
     {
         public BenchmarkContext(DbContextOptions<BenchmarkContext> options) : base(options) { }
 
-        public DbSet<Benchmark> Benchmarks { get; set; }
+        public DbSet<Benchmark>? Benchmarks { get; set; }
     }
 }

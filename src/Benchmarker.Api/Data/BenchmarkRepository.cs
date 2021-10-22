@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Benchmarker.Api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Benchmarker.Api.Data
 {
@@ -10,26 +12,26 @@ namespace Benchmarker.Api.Data
 
         public BenchmarkRepository(BenchmarkContext context) => _context = context;
 
-        public void CreateBenchmark(Benchmark benchmark)
+        public Task CreateBenchmarkAsync(Benchmark benchmark)
         {
             throw new System.NotImplementedException();
         }
 
-        public void DeleteBenchmark(Benchmark benchmark)
+        public Task DeleteBenchmarkAsync(int id)
         {
             throw new System.NotImplementedException();
         }
 
-        public Benchmark GetBenchmarkById(int id) => _context.Benchmarks.FirstOrDefault(x => x.Id == id);
+        public async Task<Benchmark> GetBenchmarkAsync(int id) => await _context.Benchmarks.FirstOrDefaultAsync(x => x.Id == id);
 
-        public IEnumerable<Benchmark> GetBenchmarks() => _context.Benchmarks.ToList();
+        public async Task<IEnumerable<Benchmark>> GetBenchmarksAsync() => await _context.Benchmarks.ToListAsync();
 
         public bool Save()
         {
             throw new System.NotImplementedException();
         }
 
-        public void UpdateBenchmark(Benchmark benchmark)
+        public Task UpdateBenchmarkAsync(Benchmark benchmark)
         {
             throw new System.NotImplementedException();
         }

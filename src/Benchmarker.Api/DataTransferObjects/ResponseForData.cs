@@ -1,11 +1,18 @@
+using System;
+using System.Collections.Generic;
+using Benchmarker.Api.Models;
+
 namespace Benchmarker.Api.DataTransferObjects
 {
     public record ResponseForData
     {
-        public int Id { get; init; }
-        public int CpuUtilization { get; init; }
-        public int NetworkIn { get; init; }
-        public int NetworkOut { get; init; }
-        public double MemoryUtilization { get; init; }
+        /// <summary>Request for Workload ID (timestamp)</summary>
+        public DateTime Id { get; init; }
+
+        /// <summary>Last Batch ID</summary>
+        public int? BatchId { get; init; }
+
+        ///<summary>Data samples requested</summary>
+        public IEnumerable<Benchmark>? Data { get; init; }
     }
 }

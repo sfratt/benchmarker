@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Benchmarker.Api.DataTransferObjects;
 using Benchmarker.Api.Models;
 
 namespace Benchmarker.Api.Data
@@ -9,8 +11,8 @@ namespace Benchmarker.Api.Data
     /// </summary>
     public interface IBenchmarkRepository
     {
-        Task<IEnumerable<Benchmark>> GetBenchmarksAsync();
-        Task<Benchmark> GetBenchmarkAsync(int id);
+        Task<IEnumerable<string>> GetBenchmarksAsync(RequestForWorkload request);
+        Task<Benchmark> GetBenchmarkAsync(Guid id);
         Task CreateBenchmarkAsync(Benchmark benchmark);
         Task UpdateBenchmarkAsync(Benchmark benchmark);
         Task DeleteBenchmarkAsync(int id);

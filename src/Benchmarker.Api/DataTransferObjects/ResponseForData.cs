@@ -13,6 +13,6 @@ namespace Benchmarker.Api.DataTransferObjects
         public int? BatchId { get; init; }
 
         ///<summary>Data samples requested</summary>
-        public IEnumerable<Benchmark>? Data { get; init; }
+        public IEnumerable<string>? Data { get; init; }
     }
 }

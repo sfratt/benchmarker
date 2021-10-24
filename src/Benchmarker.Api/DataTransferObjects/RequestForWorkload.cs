@@ -8,10 +8,10 @@ namespace Benchmarker.Api.DataTransferObjects
         public DateTime Id { get; init; }
 
         /// <summary>Benchmark type (NDBench or DVDStore)</summary>
-        public string? Benchmark { get; init; }
+        public string? BenchmarkType { get; init; }
 
         /// <summary>Data type (training or testing)</summary>
-        public string? Type { get; init; }
+        public string? DataType { get; init; }
 
         /// <summary>CPU, NetworkIn, NetworkOut, or Memory</summary>
         public string? Metric { get; init; }

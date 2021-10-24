@@ -26,15 +26,14 @@ namespace Benchmarker.Api.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ResponseForData>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Get([FromBody] RequestForWorkload workload)
+        public async Task<IActionResult> Get([FromBody] RequestForWorkload request)
         {
-            Console.WriteLine($"Metric: {workload.Metric}, Batch ID: {workload.BatchId}");
-            var benchmarks = await _repository.GetBenchmarksAsync();
+            var benchmarks = await _repository.GetBenchmarksAsync(request);
             if (!benchmarks.Any()) return NotFound();
             ResponseForData response = new()
             {
-                Id = workload.Id,
-                BatchId = workload.BatchId,
+                Id = request.Id,
+                BatchId = request.BatchId,
                 Data = benchmarks
             };
             // return Ok(_mapper.Map<IEnumerable<ResponseForData>>(benchmarks));
@@ -44,15 +43,15 @@ namespace Benchmarker.Api.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseForData))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Get([FromRoute] int id, [FromBody] RequestForWorkload workload)
+        public async Task<IActionResult> Get([FromRoute] Guid id, [FromBody] RequestForWorkload request)
         {
             var benchmark = await _repository.GetBenchmarkAsync(id);
             if (benchmark is null) return NotFound();
             ResponseForData response = new()
             {
-                Id = workload.Id,
-                BatchId = workload.BatchId,
-                Data = new[] { benchmark }
+                Id = request.Id,
+                BatchId = request.BatchId,
+                // Data = new[] { benchmark }
             };
             // return Ok(_mapper.Map<BenchmarkReadDto>(benchmark));
             return Ok(response);

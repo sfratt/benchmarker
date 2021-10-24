@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Benchmarker.Api.DataTransferObjects;
 using Benchmarker.Api.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,9 +24,30 @@ namespace Benchmarker.Api.Data
             throw new System.NotImplementedException();
         }
 
-        public async Task<Benchmark> GetBenchmarkAsync(int id) => await _context.Benchmarks.FirstOrDefaultAsync(x => x.Id == id);
+        public async Task<Benchmark> GetBenchmarkAsync(Guid id) => await _context.Benchmarks.FirstOrDefaultAsync(x => x.Id == id);
 
-        public async Task<IEnumerable<Benchmark>> GetBenchmarksAsync() => await _context.Benchmarks.ToListAsync();
+        public async Task<IEnumerable<string>> GetBenchmarksAsync(RequestForWorkload request)
+        {
+            List<string> benchmarks = new();
+            switch (request.Metric!.ToLower())
+            {
+                case "cpu":
+                    benchmarks = (
+                        await _context.Benchmarks!
+                            .Where(u => u.BenchmarkType == request.BenchmarkType)
+                            .Select(x => x.CpuUtilization)
+                            .ToListAsync()
+                        ).ConvertAll<string>(x => x.ToString());
+                    break;
+                case "memory":
+                    benchmarks = (await _context.Benchmarks!.Select(x => x.MemoryUtilization).ToListAsync())
+                        .ConvertAll<string>(x => x.ToString());
+                    break;
+                default:
+                    break;
+            }
+            return benchmarks;
+        }
 
         public bool Save()
         {

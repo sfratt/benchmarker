@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Benchmarker.Api.Models
@@ -10,7 +11,7 @@ namespace Benchmarker.Api.Models
     {
         [Key]
         [Required]
-        public int Id { get; init; }
+        public Guid Id { get; init; }
 
         [Required]
         public int CpuUtilization { get; init; }
@@ -24,7 +25,13 @@ namespace Benchmarker.Api.Models
         [Required]
         public double MemoryUtilization { get; init; }
 
-        // [Required]
-        // public bool IsTraining { get; init; }
+        [Required]
+        public string BenchmarkType { get; init; } = string.Empty;
+
+        [Required]
+        public bool IsTrainingData { get; init; }
+
+        [Required]
+        public int SampleId { get; init; }
     }
 }

@@ -26,7 +26,7 @@ namespace Benchmarker.Api.Models
         public double MemoryUtilization { get; init; }
 
         [Required]
-        public string BenchmarkType { get; init; } = string.Empty;
+        public string BenchmarkType { get; init; } = default!;
 
         [Required]
         public bool IsTrainingData { get; init; }

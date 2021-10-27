@@ -36,7 +36,6 @@ namespace Benchmarker.Api.Controllers
                 BatchId = request.BatchId,
                 Data = benchmarks
             };
-            // return Ok(_mapper.Map<IEnumerable<ResponseForData>>(benchmarks));
             return Ok(response);
         }
 

@@ -28,25 +28,55 @@ namespace Benchmarker.Api.Data
 
         public async Task<IEnumerable<string>> GetBenchmarksAsync(RequestForWorkload request)
         {
-            List<string> benchmarks = new();
-            switch (request.Metric!.ToLower())
+            bool dataType;
+            if (request.DataType.ToLower().Equals("training"))
+            {
+                dataType = true;
+            }
+            else if (request.DataType.ToLower().Equals("testing"))
+            {
+                dataType = false;
+            }
+            else
+            {
+                throw new ArgumentException("Data type is neither training nor testing");
+            }
+
+            List<Benchmark> benchmarks = await _context.Benchmarks!
+                            .Where(a => a.BenchmarkType == request.BenchmarkType)
+                            .Where(u => u.IsTrainingData == dataType)
+                            .ToListAsync();
+            List<string> metrics = new();
+            switch (request.Metric.ToLower())
             {
                 case "cpu":
-                    benchmarks = (
-                        await _context.Benchmarks!
-                            .Where(u => u.BenchmarkType == request.BenchmarkType)
+                    metrics = benchmarks
                             .Select(x => x.CpuUtilization)
-                            .ToListAsync()
-                        ).ConvertAll<string>(x => x.ToString());
+                            .ToList()
+                            .ConvertAll<string>(x => x.ToString());
+                    break;
+                case "networkin":
+                    metrics = benchmarks
+                            .Select(x => x.NetworkIn)
+                            .ToList()
+                            .ConvertAll<string>(x => x.ToString());
+                    break;
+                case "networkout":
+                    metrics = benchmarks
+                            .Select(x => x.NetworkOut)
+                            .ToList()
+                            .ConvertAll<string>(x => x.ToString());
                     break;
                 case "memory":
-                    benchmarks = (await _context.Benchmarks!.Select(x => x.MemoryUtilization).ToListAsync())
-                        .ConvertAll<string>(x => x.ToString());
+                    metrics = benchmarks
+                            .Select(x => x.MemoryUtilization)
+                            .ToList()
+                            .ConvertAll<string>(x => x.ToString());
                     break;
                 default:
                     break;
             }
-            return benchmarks;
+            return metrics;
         }
 
         public bool Save()

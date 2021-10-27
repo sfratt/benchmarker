@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Benchmarker.Api.Models;
 
-namespace Benchmarker.Api.DataTransferObjects
+namespace Benchmarker.Domain.DataTransferObjects
 {
     public record ResponseForData
     {
@@ -10,7 +9,7 @@ namespace Benchmarker.Api.DataTransferObjects
         public DateTime Id { get; init; }
 
         /// <summary>Last Batch ID</summary>
-        public int? BatchId { get; init; }
+        public int BatchId { get; init; }
 
         ///<summary>Data samples requested</summary>
         public IEnumerable<string>? Data { get; init; }

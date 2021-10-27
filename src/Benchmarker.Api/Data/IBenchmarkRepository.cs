@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Benchmarker.Api.DataTransferObjects;
-using Benchmarker.Api.Models;
+using Benchmarker.Domain.DataTransferObjects;
+using Benchmarker.Domain.Models;
 
 namespace Benchmarker.Api.Data
 {

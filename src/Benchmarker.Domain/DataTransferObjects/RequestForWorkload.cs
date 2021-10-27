@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Benchmarker.Api.DataTransferObjects
+namespace Benchmarker.Domain.DataTransferObjects
 {
     public record RequestForWorkload
     {
@@ -36,7 +36,7 @@ namespace Benchmarker.Api.DataTransferObjects
         /// <summary>
         /// Batch ID
         /// </summary>
-        public int? BatchId { get; init; }
+        public int BatchId { get; init; }
 
         /// <summary>
         /// Number of batches to return

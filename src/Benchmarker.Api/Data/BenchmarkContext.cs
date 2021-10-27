@@ -1,4 +1,4 @@
-using Benchmarker.Api.Models;
+using Benchmarker.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Benchmarker.Api.Data

@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Benchmarker.Api.DataTransferObjects;
-using Benchmarker.Api.Models;
+using Benchmarker.Domain.DataTransferObjects;
+using Benchmarker.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Benchmarker.Api.Data

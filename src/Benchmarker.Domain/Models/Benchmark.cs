@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Benchmarker.Api.Models
+namespace Benchmarker.Domain.Models
 {
     /// <summary>
     /// Class <c>Benchmark</c> models the workload data generated from two industrial benchmarks: 

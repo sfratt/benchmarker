@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Benchmarker.Api.Migrations
+namespace Benchmarker.DataAccess.Migrations
 {
     public partial class InitialCreate : Migration
     {

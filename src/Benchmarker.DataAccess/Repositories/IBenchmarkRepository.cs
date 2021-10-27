@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Benchmarker.Domain.DataTransferObjects;
 using Benchmarker.Domain.Models;
 
-namespace Benchmarker.Api.Data
+namespace Benchmarker.DataAccess.Repositories
 {
     /// <summary>
     /// Interface <c>IBenchmarkRepository</c> defines the CRUD methods needed by the repository pattern.

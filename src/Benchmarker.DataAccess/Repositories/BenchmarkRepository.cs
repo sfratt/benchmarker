@@ -6,7 +6,7 @@ using Benchmarker.Domain.DataTransferObjects;
 using Benchmarker.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Benchmarker.Api.Data
+namespace Benchmarker.DataAccess.Repositories
 {
     public class BenchmarkRepository : IBenchmarkRepository
     {
@@ -43,7 +43,7 @@ namespace Benchmarker.Api.Data
             }
 
             List<Benchmark> benchmarks = await _context.Benchmarks!
-                            .Where(a => a.BenchmarkType == request.BenchmarkType)
+                            .Where(a => a.BenchmarkType == request.BenchmarkType.ToLower())
                             .Where(u => u.IsTrainingData == dataType)
                             .ToListAsync();
             List<string> metrics = new();

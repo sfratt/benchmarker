@@ -1,7 +1,7 @@
 using Benchmarker.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Benchmarker.Api.Data
+namespace Benchmarker.DataAccess
 {
     public class BenchmarkContext : DbContext
     {

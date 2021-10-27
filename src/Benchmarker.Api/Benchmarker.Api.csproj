@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Benchmarker.Domain\Benchmarker.Domain.csproj" />
+    <ProjectReference Include="..\Benchmarker.DataAccess\Benchmarker.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>

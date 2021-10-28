@@ -20,27 +20,33 @@ namespace Benchmarker.Domain.DataTransferObjects
         /// <summary>
         /// Data type (training or testing)
         /// </summary>
+        [Required]
         public string DataType { get; init; } = default!;
 
         /// <summary>
         /// CPU, NetworkIn, NetworkOut, or Memory
         /// </summary>
+        [Required]
         public string Metric { get; init; } = default!;
 
         /// <summary>
         /// Number of samples contained in each batch
         /// </summary>
-        // [Range(10, 1000)]
-        public int? BatchUnit { get; init; }
+        [Required]
+        [Range(1, 1000)]
+        public int BatchUnit { get; init; }
 
         /// <summary>
         /// Batch ID
         /// </summary>
+        [Required]
+        // [Range(0, 1000)]
         public int BatchId { get; init; }
 
         /// <summary>
         /// Number of batches to return
         /// </summary>
-        public int? BatchSize { get; init; }
+        [Required]
+        public int BatchSize { get; init; }
     }
 }

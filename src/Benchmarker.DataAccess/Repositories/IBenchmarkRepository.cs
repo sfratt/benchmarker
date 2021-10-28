@@ -15,7 +15,7 @@ namespace Benchmarker.DataAccess.Repositories
         Task<Benchmark> GetBenchmarkAsync(Guid id);
         Task CreateBenchmarkAsync(Benchmark benchmark);
         Task UpdateBenchmarkAsync(Benchmark benchmark);
-        Task DeleteBenchmarkAsync(int id);
+        Task DeleteBenchmarkAsync(Guid id);
         bool Save(); // should this just return nothing (void)?
     }
 }

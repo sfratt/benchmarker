@@ -19,7 +19,7 @@ namespace Benchmarker.DataAccess.Repositories
             throw new System.NotImplementedException();
         }
 
-        public Task DeleteBenchmarkAsync(int id)
+        public Task DeleteBenchmarkAsync(Guid id)
         {
             throw new System.NotImplementedException();
         }
@@ -28,25 +28,24 @@ namespace Benchmarker.DataAccess.Repositories
 
         public async Task<IEnumerable<string>> GetBenchmarksAsync(RequestForWorkload request)
         {
+            List<string> metrics = new();
             bool dataType;
-            if (request.DataType.ToLower().Equals("training"))
+            switch (request.DataType.ToLower())
             {
-                dataType = true;
-            }
-            else if (request.DataType.ToLower().Equals("testing"))
-            {
-                dataType = false;
-            }
-            else
-            {
-                throw new ArgumentException("Data type is neither training nor testing");
+                case "training":
+                    dataType = true;
+                    break;
+                case "testing":
+                    dataType = false;
+                    break;
+                default:
+                    return metrics;
             }
 
             List<Benchmark> benchmarks = await _context.Benchmarks!
                             .Where(a => a.BenchmarkType == request.BenchmarkType.ToLower())
                             .Where(u => u.IsTrainingData == dataType)
                             .ToListAsync();
-            List<string> metrics = new();
             switch (request.Metric.ToLower())
             {
                 case "cpu":
@@ -74,9 +73,19 @@ namespace Benchmarker.DataAccess.Repositories
                             .ConvertAll<string>(x => x.ToString());
                     break;
                 default:
-                    break;
+                    return metrics;
             }
-            return metrics;
+
+            var length = metrics.Count;
+            Console.WriteLine($"Metrics list length: {length}");
+            var numberOfBatches = length / request.BatchUnit;
+            Console.WriteLine($"Number of Batches: {numberOfBatches}");
+            var startingPoint = request.BatchId * request.BatchUnit;
+            Console.WriteLine($"Starting Index: {startingPoint}");
+            var responseDataLength = request.BatchUnit * request.BatchSize;
+            Console.WriteLine($"Length of Data Reponse: {responseDataLength}");
+
+            return metrics.GetRange(startingPoint, responseDataLength);
         }
 
         public bool Save()

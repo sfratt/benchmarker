@@ -21,4 +21,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Benchmarker.Domain\Benchmarker.Domain.csproj" />
+    <ProjectReference Include="..\Benchmarker.DataAccess\Benchmarker.DataAccess.csproj" />
+  </ItemGroup>
+
 </Project>

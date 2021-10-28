@@ -1,6 +1,6 @@
 using AutoMapper;
-using Benchmarker.Api.DataTransferObjects;
-using Benchmarker.Api.Models;
+using Benchmarker.Domain.DataTransferObjects;
+using Benchmarker.Domain.Models;
 
 namespace Benchmarker.Api.Profiles
 {

@@ -1,5 +1,6 @@
 using System;
-using Benchmarker.Api.Data;
+using Benchmarker.DataAccess;
+using Benchmarker.DataAccess.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Data.SqlClient;

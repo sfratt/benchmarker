@@ -1,9 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Benchmarker.Api.Data;
-using Benchmarker.Api.DataTransferObjects;
+using Benchmarker.DataAccess.Repositories;
+using Benchmarker.Domain.DataTransferObjects;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,21 +26,34 @@ namespace Benchmarker.Api.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ResponseForData>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromBody] RequestForWorkload request)
         {
-            var benchmarks = await _repository.GetBenchmarksAsync();
+            var benchmarks = await _repository.GetBenchmarksAsync(request);
             if (!benchmarks.Any()) return NotFound();
-            return Ok(_mapper.Map<IEnumerable<ResponseForData>>(benchmarks));
+            ResponseForData response = new()
+            {
+                Id = request.Id,
+                BatchId = request.BatchId,
+                Data = benchmarks
+            };
+            return Ok(response);
         }
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseForData))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get([FromRoute] Guid id, [FromBody] RequestForWorkload request)
         {
             var benchmark = await _repository.GetBenchmarkAsync(id);
             if (benchmark is null) return NotFound();
-            return Ok(_mapper.Map<ResponseForData>(benchmark));
+            ResponseForData response = new()
+            {
+                Id = request.Id,
+                BatchId = request.BatchId,
+                // Data = new[] { benchmark }
+            };
+            // return Ok(_mapper.Map<BenchmarkReadDto>(benchmark));
+            return Ok(response);
         }
     }
 }

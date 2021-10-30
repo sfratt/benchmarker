@@ -6,10 +6,8 @@
 trigger:
 - main
 
-pool:
-  vmImage: 'ubuntu-latest'
-
 variables:
+  vmImage: 'ubuntu-latest'
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'

@@ -22,9 +22,11 @@ namespace Benchmarker.Api
         public void ConfigureServices(IServiceCollection services)
         {
             var builder = new SqlConnectionStringBuilder(Configuration.GetConnectionString("DefaultConnection"));
-            var benchmarkerCredentials = Configuration.GetSection("BenchmarkerCredentials");
-            builder.UserID = benchmarkerCredentials["UserID"];
-            builder.Password = benchmarkerCredentials["Password"];
+            // var benchmarkerCredentials = Configuration.GetSection("BenchmarkerCredentials");
+            // builder.UserID = benchmarkerCredentials["UserID"];
+            // builder.Password = benchmarkerCredentials["Password"];
+            builder.UserID = Configuration["UserID"];
+            builder.Password = Configuration["Password"];
 
             services.AddDbContext<BenchmarkContext>(options => options.UseSqlServer(builder.ConnectionString));
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

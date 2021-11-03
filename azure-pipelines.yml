@@ -7,8 +7,10 @@ trigger:
 - main
 - feature/*
 
+pool:
+  vmImage: 'windows-latest'
+
 variables:
-  vmImage: 'ubuntu-latest'
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
@@ -21,10 +23,10 @@ steps:
 #     restoreSolution: '$(solution)'
 
 - task: DotNetCoreCLI@2
-  displayName: 'dotnet build $(buildConfiguration)'
+  displayName: 'dotnet build'
   inputs:
     command: build
-    projects: '**/*.csproj'
+    projects: '$(solution)'
     arguments: '--configuration $(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
@@ -32,15 +34,7 @@ steps:
   inputs:
     command: test
     projects: '**/*Tests/*.csproj'
-    arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
-    publishTestResults: true
-    testRunTitle: 'xUnit Test Run'
-
-- task: PublishCodeCoverageResults@1
-  displayName: 'code coverage'
-  inputs:
-    codeCoverageTool: 'Cobertura'
-    summaryFileLocation: '$(Build.SourcesDirectory)/**/coverage.cobertura.xml'
+    arguments: '--configuration $(buildConfiguration) --collect "Code Coverage"'
 
 - task: DotNetCoreCLI@2
   displayName: 'dotnet publish'
@@ -58,3 +52,34 @@ steps:
 #   inputs:
 #     pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
 #     artifactName: 'drop'
+
+# steps:
+
+# - task: DotNetCoreCLI@2
+#   displayName: 'dotnet build'
+#   inputs:
+#     command: build
+#     projects: '**/*.csproj'
+#     arguments: '--configuration $(buildConfiguration)'
+
+# - task: DotNetCoreCLI@2
+#   displayName: 'dotnet test'
+#   inputs:
+#     command: test
+#     projects: '**/*Tests/*.csproj'
+#     arguments: '--configuration $(buildConfiguration) --collect "Code Coverage"'
+
+# - task: DotNetCoreCLI@2
+#   displayName: 'dotnet publish'
+#   inputs:
+#     command: publish
+#     publishWebProjects: false
+#     projects: 'SimpleApi/SimpleApi.csproj'
+#     arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+#     zipAfterPublish: true
+
+# - task: PublishBuildArtifacts@1
+#   displayName: 'Publish Artifacts'
+#   inputs:
+#     pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
+#     artifactName: 'SimpleApi'

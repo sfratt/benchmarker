@@ -44,3 +44,11 @@ steps:
   inputs:
     pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
     artifactName: 'drop'
+
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Azure for Students (a45f9ea8-2704-48c7-a2e6-75b9ef4061f2)'
+    appType: 'apiApp'
+    WebAppName: 'benchmarker'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'

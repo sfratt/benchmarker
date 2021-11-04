@@ -76,16 +76,12 @@ namespace Benchmarker.DataAccess.Repositories
                     return metrics;
             }
 
-            var length = metrics.Count;
-            Console.WriteLine($"Metrics list length: {length}");
-            var numberOfBatches = length / request.BatchUnit;
-            Console.WriteLine($"Number of Batches: {numberOfBatches}");
-            var startingPoint = request.BatchId * request.BatchUnit;
-            Console.WriteLine($"Starting Index: {startingPoint}");
-            var responseDataLength = request.BatchUnit * request.BatchSize;
-            Console.WriteLine($"Length of Data Reponse: {responseDataLength}");
+            var numberOfSamples = metrics.Count;
+            var numberOfBatches = numberOfSamples / request.BatchUnit;
+            var startIndex = request.BatchId * request.BatchUnit;
+            var endIndex = request.BatchUnit * request.BatchSize;
 
-            return metrics.GetRange(startingPoint, responseDataLength);
+            return metrics.GetRange(startIndex, endIndex);
         }
 
         public bool Save()

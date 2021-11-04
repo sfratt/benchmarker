@@ -1,6 +1,6 @@
 # Benchmarker: Workload Data Service
 
-[![Build Status](https://dev.azure.com/sfratt/Benchmarker/_apis/build/status/sfratt.benchmarker?branchName=main)](https://dev.azure.com/sfratt/Benchmarker/_build/latest?definitionId=15&branchName=main)
+[![Build Status](https://dev.azure.com/stephenfrattaroli/Benchmarker/_apis/build/status/sfratt.benchmarker?branchName=feature%2Fgrpc)](https://dev.azure.com/stephenfrattaroli/Benchmarker/_build/latest?definitionId=3&branchName=feature%2Fgrpc)
 
 The workload data contains the workload generated from two industrial benchmarks: NDBench from Netflix and DVD store from Dell. Both benchmarks are deployed on a cluster of cloud VMs on AWS and Azure clouds. The workload has been split to training sets and testing sets for machine learning purpose.
 

@@ -7,24 +7,20 @@ trigger:
 - main
 - feature/*
 
+pool:
+  vmImage: 'windows-latest'
+
 variables:
-  vmImage: 'ubuntu-latest'
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
 steps:
-# - task: NuGetToolInstaller@1
-
-# - task: NuGetCommand@2
-#   inputs:
-#     restoreSolution: '$(solution)'
-
 - task: DotNetCoreCLI@2
-  displayName: 'dotnet build $(buildConfiguration)'
+  displayName: 'dotnet build'
   inputs:
     command: build
-    projects: '**/*.csproj'
+    projects: '$(solution)'
     arguments: '--configuration $(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
@@ -32,15 +28,7 @@ steps:
   inputs:
     command: test
     projects: '**/*Tests/*.csproj'
-    arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
-    publishTestResults: true
-    testRunTitle: 'xUnit Test Run'
-
-- task: PublishCodeCoverageResults@1
-  displayName: 'code coverage'
-  inputs:
-    codeCoverageTool: 'Cobertura'
-    summaryFileLocation: '$(Build.SourcesDirectory)/**/coverage.cobertura.xml'
+    arguments: '--configuration $(buildConfiguration) --collect "Code Coverage"'
 
 - task: DotNetCoreCLI@2
   displayName: 'dotnet publish'
@@ -49,12 +37,10 @@ steps:
     publishWebProjects: false
     projects: '**/*Api/*.csproj'
     arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: true
 
 - task: PublishBuildArtifacts@1
   displayName: 'publish artifacts'
-
-# - task: PublishBuildArtifacts@1
-#   displayName: 'Publish Artifacts'
-#   inputs:
-#     pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
-#     artifactName: 'drop'
+  inputs:
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
+    artifactName: 'drop'

@@ -36,6 +36,7 @@ namespace Benchmarker.Api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Benchmarker.Api", Version = "v1" });
             });
+            services.AddHealthChecks();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,6 +59,7 @@ namespace Benchmarker.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/health");
             });
         }
     }

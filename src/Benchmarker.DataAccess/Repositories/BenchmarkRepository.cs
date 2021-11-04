@@ -46,6 +46,8 @@ namespace Benchmarker.DataAccess.Repositories
                             .Where(a => a.BenchmarkType == request.BenchmarkType.ToLower())
                             .Where(u => u.IsTrainingData == dataType)
                             .ToListAsync();
+            if (!benchmarks.Any()) return metrics;
+
             switch (request.Metric.ToLower())
             {
                 case "cpu":
